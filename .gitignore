@@ -1,0 +1,52 @@
+# Virtual environments
+.venv/
+.venv-1/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Pytest / test cache
+.pytest_cache/
+.cache/
+
+# Environment variables / secrets
+.env
+.env.*
+*.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Node / Frontend (keep package.json and source, exclude installed deps and build)
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Hugging Face / Torch model cache (user-level cache directories)
+.cache/huggingface/
+.cache/torch/
+
+# Editor
+.vscode/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+training_output.txt
+training_error.txt

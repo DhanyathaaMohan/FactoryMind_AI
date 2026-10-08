@@ -1,0 +1,121 @@
+Feature,MeanAbsoluteSHAP
+Accelerometer - Spindle -X - std,0.1711032136809699
+Accelerometer - Spindle -Z - std,0.017130768429989153
+Current - Driving axle X L2 - mean,0.016528506869993218
+Current - Driving axle X L1 - mean,0.016248826923944026
+Accelerometer - Spindle +Y - kurtosis,0.015785704790167485
+Accelerometer - X Driving axle -X - std,0.015221566230302658
+Accelerometer - Y Driving axle -X - std,0.010413738634847222
+Accelerometer - Y Driving axle +Y - std,0.010358298425946317
+Accelerometer - Spindle -Z - max,0.009910077165886245
+Accelerometer - X Driving axle +Z - skew,0.008558400821307
+Current - Driving axle X L3 - mean,0.008386645887663895
+Current - Driving axle Z L1 - min,0.006807350554473687
+Accelerometer - Spindle -Z - skew,0.004471228701883468
+Current - Spindle L2 - kurtosis,0.004414701331754622
+Accelerometer - X Driving axle +Z - min,0.003493064177349816
+Accelerometer - X Driving axle +Z - std,0.0034015126976192165
+Accelerometer - Spindle -X - skew,0.003240864751643054
+Current - Driving axle Z L3 - min,0.0031744973690338695
+Accelerometer - Spindle +Y - skew,0.0031302950963683243
+Current - Driving axle Y L1 - min,0.0031052823164283844
+Accelerometer - X Driving axle +Z - mean,0.0030843191230486558
+Accelerometer - Spindle -X - kurtosis,0.002930243409123676
+Current - Driving axle X L3 - kurtosis,0.0027395204843692917
+Accelerometer - X Driving axle +Z - kurtosis,0.0025523683200502118
+Accelerometer - Y Driving axle -X - kurtosis,0.0024625871372938512
+Accelerometer - X Driving axle -X - skew,0.0023535354673216236
+Accelerometer - Y Driving axle +Z - std,0.0023530470253552817
+Current - Driving axle X L1 - kurtosis,0.0023099233112833617
+Accelerometer - X Driving axle -X - mean,0.0021774694362883796
+Current - Spindle L1 - kurtosis,0.001987004241174566
+Current - Spindle L3 - kurtosis,0.0019277031755416836
+Accelerometer - Y Driving axle +Z - kurtosis,0.0018644749630265345
+Current - Spindle L2 - max,0.0017666370816889494
+Current - Spindle L1 - max,0.0016621039119513925
+Accelerometer - Y Driving axle +Z - skew,0.0014220362433826545
+Current - Driving axle X L2 - min,0.0012912185147752806
+Current - Spindle L3 - max,0.0012857207397831709
+Current - Driving axle Y L1 - skew,0.001217733495621588
+Current - Driving axle Y L3 - max,0.0012069949211427377
+Accelerometer - Spindle -Z - kurtosis,0.001178028227788577
+Accelerometer - Y Driving axle +Y - skew,0.0011628877388330419
+Accelerometer - Spindle +Y - std,0.0011345695686666342
+Accelerometer - Y Driving axle -X - skew,0.0010900762285268326
+Accelerometer - Y Driving axle +Y - max,0.00107896208899231
+Accelerometer - Y Driving axle -X - max,0.001046283561009131
+Current - Driving axle Y L3 - min,0.0010131547807221315
+Accelerometer - Spindle -X - mean,0.0009997124831368728
+Accelerometer - Y Driving axle -X - mean,0.0009713099937177118
+Current - Driving axle Y L3 - skew,0.0009264927215799532
+Accelerometer - Y Driving axle +Y - kurtosis,0.0008915824580200991
+Accelerometer - Y Driving axle +Z - mean,0.0008246408359617093
+Accelerometer - Spindle +Y - mean,0.0008122406915813771
+Accelerometer - Y Driving axle -X - min,0.0008011762055196735
+Accelerometer - Spindle -X - max,0.0008000769749686279
+Current - Driving axle X L2 - std,0.0007311815106609293
+Accelerometer - Spindle +Y - min,0.0007022178697452346
+Accelerometer - X Driving axle +Z - max,0.0007017154704436454
+Current - Driving axle Y L2 - min,0.0006610402812354583
+Current - Driving axle X L1 - std,0.0006562033581717819
+Current - Driving axle Z L2 - min,0.0006531509266246434
+Accelerometer - Y Driving axle +Y - mean,0.0006419462356764425
+Accelerometer - X Driving axle -X - kurtosis,0.0006173649923159963
+Accelerometer - Y Driving axle +Y - min,0.0006168469840306439
+Accelerometer - X Driving axle -X - max,0.000613717887470686
+Current - Driving axle Y L2 - max,0.0005853144842940701
+Current - Spindle L3 - min,0.0005653095435765835
+Current - Driving axle Y L1 - kurtosis,0.0005550596841435374
+Current - Driving axle X L2 - kurtosis,0.0005234595786428531
+Current - Driving axle Y L2 - skew,0.0005179620080494197
+Accelerometer - Y Driving axle +Z - min,0.0005177012469376677
+Accelerometer - Spindle -Z - min,0.0005020515582773871
+Accelerometer - Spindle +Y - max,0.0004903066134106573
+Current - Driving axle X L3 - std,0.00048667023590458723
+Current - Driving axle X L3 - min,0.00048068758071011166
+Accelerometer - X Driving axle -X - min,0.0004791904509649132
+Current - Driving axle Y L3 - kurtosis,0.0004531584842838596
+Accelerometer - Spindle -X - min,0.0004449705525376137
+Current - Driving axle Y L2 - kurtosis,0.00041801867855457346
+Accelerometer - Y Driving axle +Z - max,0.00039645805963463396
+Current - Driving axle X L1 - min,0.0003772972058592634
+Current - Spindle L1 - mean,0.0003709117819074691
+Current - Spindle L2 - std,0.0003634427094920846
+Current - Spindle L1 - std,0.0003607777826953269
+Accelerometer - Spindle -Z - mean,0.00033541563838493236
+Current - Spindle L2 - min,0.0003272934923093204
+Current - Driving axle X L2 - max,0.00032393622124513607
+Current - Spindle L2 - mean,0.00031680164624798104
+Current - Spindle L3 - mean,0.00031579767014671957
+Current - Driving axle Z L2 - mean,0.0003086708820977635
+Current - Driving axle Y L1 - max,0.0002861825361373033
+Current - Driving axle Z L3 - std,0.000282568610238806
+Current - Driving axle Z L2 - std,0.00027176979877581165
+Current - Spindle L3 - std,0.0002613639592988893
+Current - Driving axle Z L2 - max,0.000248659400100109
+Current - Spindle L3 - skew,0.00024758321564946384
+Current - Driving axle Z L1 - kurtosis,0.00024557760287843123
+Current - Spindle L2 - skew,0.00024335501732426133
+Current - Driving axle Z L1 - skew,0.00023839000741116166
+Current - Driving axle X L3 - max,0.00023557711198292244
+Current - Driving axle Z L1 - max,0.00023350474915283568
+Current - Spindle L1 - skew,0.00023184631486402763
+Current - Driving axle Y L3 - mean,0.00023126067923669839
+Current - Driving axle Y L1 - std,0.00020553016399083504
+Current - Driving axle X L2 - skew,0.00020365270435713302
+Current - Driving axle X L3 - skew,0.00019782796689202567
+Current - Spindle L1 - min,0.00019256431574045247
+Current - Driving axle Z L3 - max,0.00018541322267964116
+Current - Driving axle X L1 - skew,0.00018318748559130406
+Current - Driving axle Y L3 - std,0.0001776766780189278
+Current - Driving axle Y L2 - std,0.00016290974476984062
+Current - Driving axle Z L1 - mean,0.00016212717700492317
+Current - Driving axle X L1 - max,0.00016042133080197877
+Current - Driving axle Z L1 - std,0.00015803329128210293
+Current - Driving axle Z L3 - kurtosis,0.00014787048932677236
+Current - Driving axle Y L2 - mean,0.00013836302351405183
+Current - Driving axle Z L2 - kurtosis,0.00013300766209912076
+Current - Driving axle Y L1 - mean,0.00013296217251162595
+Current - Driving axle Z L3 - skew,0.00011534780555228698
+Current - Driving axle Z L3 - mean,0.00011466712440385442
+Current - Driving axle Z L2 - skew,9.89323062518287e-05

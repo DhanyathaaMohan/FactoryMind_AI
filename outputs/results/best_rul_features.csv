@@ -1,0 +1,121 @@
+Feature
+Accelerometer - Spindle -X - std
+Current - Driving axle X L1 - mean
+Accelerometer - Spindle -Z - std
+Current - Driving axle X L2 - mean
+Current - Driving axle X L3 - mean
+Accelerometer - Y Driving axle -X - std
+Accelerometer - Spindle -Z - max
+Accelerometer - Spindle -X - max
+Accelerometer - Y Driving axle +Y - std
+Accelerometer - Spindle -X - min
+Accelerometer - Y Driving axle +Z - std
+Accelerometer - Spindle -X - kurtosis
+Accelerometer - Spindle +Y - max
+Accelerometer - X Driving axle -X - std
+Current - Driving axle Y L3 - mean
+Accelerometer - Y Driving axle -X - kurtosis
+Current - Driving axle Y L1 - mean
+Current - Driving axle Y L2 - mean
+Current - Driving axle X L2 - std
+Accelerometer - X Driving axle +Z - std
+Current - Driving axle X L3 - std
+Current - Driving axle X L1 - std
+Current - Driving axle X L1 - max
+Current - Driving axle X L2 - max
+Current - Driving axle X L3 - max
+Current - Driving axle Y L1 - std
+Current - Driving axle Y L3 - std
+Current - Driving axle Y L2 - std
+Accelerometer - Y Driving axle +Z - kurtosis
+Accelerometer - X Driving axle -X - max
+Accelerometer - Spindle +Y - skew
+Current - Spindle L2 - mean
+Current - Spindle L3 - mean
+Current - Spindle L1 - mean
+Accelerometer - X Driving axle -X - min
+Accelerometer - Spindle -Z - skew
+Accelerometer - Spindle -Z - kurtosis
+Current - Driving axle Y L1 - max
+Accelerometer - Spindle +Y - mean
+Current - Driving axle Y L3 - max
+Current - Driving axle Y L2 - max
+Current - Driving axle X L3 - kurtosis
+Accelerometer - Spindle +Y - min
+Accelerometer - Y Driving axle +Y - kurtosis
+Current - Driving axle X L2 - kurtosis
+Current - Driving axle X L1 - kurtosis
+Accelerometer - Spindle +Y - kurtosis
+Accelerometer - X Driving axle +Z - max
+Accelerometer - X Driving axle +Z - min
+Accelerometer - X Driving axle -X - skew
+Current - Driving axle X L1 - skew
+Accelerometer - Y Driving axle -X - max
+Current - Driving axle X L3 - skew
+Current - Driving axle X L2 - skew
+Accelerometer - Spindle +Y - std
+Current - Driving axle Z L2 - min
+Accelerometer - Y Driving axle -X - min
+Accelerometer - Y Driving axle +Y - max
+Current - Driving axle Y L2 - kurtosis
+Current - Driving axle Y L3 - kurtosis
+Accelerometer - Y Driving axle +Y - min
+Current - Driving axle Y L1 - min
+Current - Driving axle Y L3 - min
+Current - Spindle L2 - std
+Current - Spindle L3 - std
+Current - Spindle L1 - std
+Current - Driving axle Y L1 - kurtosis
+Current - Driving axle X L3 - min
+Accelerometer - Y Driving axle +Z - min
+Accelerometer - Y Driving axle +Z - max
+Accelerometer - Spindle -Z - min
+Accelerometer - Y Driving axle -X - skew
+Accelerometer - Spindle -X - mean
+Current - Spindle L3 - min
+Current - Driving axle Y L2 - min
+Current - Spindle L2 - min
+Current - Driving axle X L1 - min
+Current - Spindle L1 - kurtosis
+Current - Spindle L3 - kurtosis
+Current - Spindle L2 - kurtosis
+Current - Spindle L2 - max
+Accelerometer - X Driving axle +Z - kurtosis
+Accelerometer - Y Driving axle +Y - skew
+Accelerometer - Y Driving axle +Y - mean
+Current - Driving axle Z L3 - min
+Accelerometer - Y Driving axle +Z - skew
+Current - Spindle L1 - min
+Current - Spindle L3 - max
+Accelerometer - Y Driving axle -X - mean
+Accelerometer - Spindle -X - skew
+Current - Driving axle X L2 - min
+Current - Spindle L1 - max
+Current - Driving axle Y L1 - skew
+Current - Driving axle Z L1 - std
+Current - Driving axle Z L3 - std
+Current - Driving axle Y L3 - skew
+Current - Driving axle Z L3 - max
+Accelerometer - X Driving axle +Z - mean
+Current - Driving axle Z L2 - mean
+Accelerometer - Spindle -Z - mean
+Current - Driving axle Z L2 - std
+Current - Driving axle Z L1 - kurtosis
+Current - Driving axle Z L3 - mean
+Current - Driving axle Z L1 - mean
+Current - Driving axle Z L1 - skew
+Accelerometer - X Driving axle +Z - skew
+Current - Driving axle Z L3 - kurtosis
+Accelerometer - Y Driving axle +Z - mean
+Current - Driving axle Z L1 - max
+Accelerometer - X Driving axle -X - kurtosis
+Current - Driving axle Z L3 - skew
+Current - Driving axle Z L1 - min
+Current - Driving axle Z L2 - kurtosis
+Accelerometer - X Driving axle -X - mean
+Current - Driving axle Y L2 - skew
+Current - Driving axle Z L2 - skew
+Current - Driving axle Z L2 - max
+Current - Spindle L3 - skew
+Current - Spindle L1 - skew
+Current - Spindle L2 - skew
