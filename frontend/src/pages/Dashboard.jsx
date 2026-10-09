@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { fetchHealth } from '../services/api.js'
+import { fetchHealth, getSamples } from '../services/api.js'
 import Header from '../components/Header.jsx'
 import MachineHealthCard from '../components/MachineHealthCard.jsx'
 import RULGauge from '../components/RULGauge.jsx'
@@ -35,18 +35,20 @@ const sectionTitle = {
 }
 
 /* ------------------------------------------------------------------ */
-/* DEMO sensor data helper (fills 120 features with zeros)             */
-/* In production this comes from machine sensors / a POST body.        */
+/* Sample state type                                                    */
 /* ------------------------------------------------------------------ */
-function buildDemoSensorData(featureNames) {
-  const data = {}
-  featureNames.forEach((f) => { data[f] = 0.0 })
-  return data
-}
+/**
+ * @typedef {Object} Sample
+ * @property {number} sample_index
+ * @property {number} tool_index
+ * @property {number} cycle
+ */
 
 /* ------------------------------------------------------------------ */
 export default function Dashboard() {
   const [health, setHealth]           = useState(null)
+  const [samples, setSamples]         = useState([])     // array of {sample_index, tool_index, cycle}
+  const [selectedSample, setSelectedSample] = useState(null) // selected Sample
   const [prediction, setPrediction]   = useState(null)   // {predicted_rul, tool_condition}
   const [shapFeats, setShapFeats]     = useState([])
   const [sources, setSources]         = useState([])
@@ -63,37 +65,48 @@ export default function Dashboard() {
       .catch(() => setHealth(null))
   }, [])
 
+  /* Load samples metadata on mount */
+  useEffect(() => {
+    getSamples()
+      .then(data => setSamples(data.samples || []))
+      .catch(() => setSamples([]))
+  }, [])
+
   /* ----------------------------------------------------------------
    * Full-pipeline: analyze-and-ask
-   * Uses a demo sensor row (all zeros) because the UI does not yet
-   * have a sensor data entry form.  In a real deployment the sensor
-   * values would be streamed from the machine controller.
+   * Uses a user-selected CNC sample from the dataset.
    * ---------------------------------------------------------------- */
   const handleAnalyze = async (e) => {
     e.preventDefault()
     const q = query.trim() || voiceQuery.trim()
     if (!q) return
 
+    // Validate sample selection
+    if (!selectedSample) {
+      setError('Please select a CNC machine sample before running the full analysis.')
+      return
+    }
+
     setLoading(true)
     setError(null)
 
     try {
-      // We need the 120 feature names — fetch /health first to confirm
-      // model is ready, then build a placeholder sensor dict.
-      // A real integration would pass actual sensor readings here.
-      const sensorData = buildDemoSensorData(
-        // placeholder feature names — the backend will reject with 422
-        // if these don't match; a real client would know the names.
-        []
-      )
-
-      const data = await postAnalyzeAndAsk(sensorData, q, 5)
+      const data = await postAnalyzeAndAsk({
+        sampleIndex: selectedSample.sample_index,
+        query: q,
+        topShap: 5,
+      })
       setPrediction({ predicted_rul: data.predicted_rul, tool_condition: data.tool_condition })
       setShapFeats(data.top_shap_features)
       setSources(data.retrieved_sources)
       setAnswer(data.maintenance_answer)
     } catch (err) {
-      setError(err.message)
+      // Check if it's a 422 error about missing features and show user-friendly message
+      if (err.message && (err.message.includes('422') || err.message.includes('Missing'))) {
+        setError('Please select a CNC machine sample before running the full analysis.')
+      } else {
+        setError(err.message || 'An error occurred while analyzing the sample.')
+      }
     } finally {
       setLoading(false)
     }
@@ -130,7 +143,7 @@ export default function Dashboard() {
           <ShapFeatureList features={shapFeats} />
         </div>
 
-        {/* ── Row 3: Quick analyze + voice ── */}
+        {/* ── Row 3: Sample selection + full pipeline analysis ── */}
         <div style={section}>
           <div style={sectionTitle}>Full Pipeline — Analyze &amp; Ask</div>
           <div className="card">
@@ -138,6 +151,95 @@ export default function Dashboard() {
               Run the full pipeline: predict RUL → explain → retrieve relevant Haas
               documentation → generate a grounded maintenance answer.
             </p>
+
+            {/* Sample selector */}
+            <div style={{ marginBottom: '0.8rem' }}>
+              <div className="label" style={{ marginBottom: '0.4rem' }}>Select CNC Sample</div>
+              {samples.length === 0 ? (
+                <p style={{ fontSize: 13, color: 'var(--muted)' }}>
+                  Loading samples from dataset...
+                </p>
+              ) : (
+                <div style={{
+                  display: 'flex',
+                  gap: '0.6rem',
+                  flexWrap: 'wrap',
+                }}>
+                  <div>
+                    <label style={{ fontSize: 11, color: 'var(--muted)', marginRight: 4 }}>
+                      Tool
+                    </label>
+                    <select
+                      value={selectedSample?.tool_index || ''}
+                      onChange={(e) => {
+                        const toolIdx = parseInt(e.target.value, 10)
+                        // Find first sample for this tool
+                        const sample = samples.find(s => s.tool_index === toolIdx) || null
+                        setSelectedSample(sample)
+                      }}
+                      style={{
+                        padding: '0.4rem 0.6rem',
+                        background: 'var(--bg)',
+                        border: '1px solid var(--border)',
+                        borderRadius: 'var(--radius)',
+                        color: 'var(--text)',
+                        fontSize: 13,
+                      }}
+                    >
+                      <option value="">Select tool...</option>
+                      {Array.from(new Set(samples.map(s => s.tool_index))).sort((a, b) => a - b).map(tool => (
+                        <option key={tool} value={tool}>Tool {tool}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 11, color: 'var(--muted)', marginRight: 4 }}>
+                      Cycle
+                    </label>
+                    <select
+                      value={selectedSample?.cycle || ''}
+                      disabled={!selectedSample?.tool_index}
+                      onChange={(e) => {
+                        const cycle = parseInt(e.target.value, 10)
+                        const sample = samples.find(s => s.cycle === cycle && s.tool_index === selectedSample?.tool_index) || null
+                        setSelectedSample(sample)
+                      }}
+                      style={{
+                        padding: '0.4rem 0.6rem',
+                        background: 'var(--bg)',
+                        border: '1px solid var(--border)',
+                        borderRadius: 'var(--radius)',
+                        color: 'var(--text)',
+                        fontSize: 13,
+                      }}
+                    >
+                      <option value="">Select cycle...</option>
+                      {samples
+                        .filter(s => s.tool_index === selectedSample?.tool_index)
+                        .map(s => (
+                          <option key={s.sample_index} value={s.cycle}>
+                            Cycle {s.cycle}
+                          </option>
+                        ))
+                      }
+                    </select>
+                  </div>
+                  {selectedSample && (
+                    <div style={{
+                      padding: '0.4rem 0.8rem',
+                      background: 'var(--border)',
+                      borderRadius: 'var(--radius)',
+                      fontSize: 12,
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}>
+                      <span>Selected: <strong>Tool {selectedSample.tool_index} — Cycle {selectedSample.cycle}</strong></span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
             <form onSubmit={handleAnalyze} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem' }}>
               <input
                 type="text"
@@ -154,11 +256,16 @@ export default function Dashboard() {
                   fontSize: 14,
                 }}
               />
-              <button type="submit" className="btn btn-primary" disabled={loading}>
+              <button type="submit" className="btn btn-primary" disabled={loading || !selectedSample}>
                 {loading ? <span className="spinner" /> : 'Analyze'}
               </button>
             </form>
             {error && <p className="error-msg">{error}</p>}
+            {!selectedSample && !loading && (
+              <p style={{ fontSize: 11, color: 'var(--muted)', marginTop: '0.4rem' }}>
+                Select a CNC sample above to analyze.
+              </p>
+            )}
           </div>
         </div>
 

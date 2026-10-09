@@ -65,15 +65,50 @@ export function postAsk(query, predictedRul = null) {
 }
 
 /**
- * POST /analyze-and-ask
- * @param {Record<string, number>} sensorData
- * @param {string} query
- * @param {number} topShap
+ * GET /samples
+ * @returns {Promise<{samples: Array<{sample_index: number, tool_index: number, cycle: number}>>}
  */
-export function postAnalyzeAndAsk(sensorData, query, topShap = 5) {
+export function getSamples() {
+  return request('/samples')
+}
+
+/**
+ * GET /samples/{index}
+ * @param {number} sampleIndex
+ */
+export function getSample(sampleIndex) {
+  return request(`/samples/${sampleIndex}`)
+}
+
+/**
+ * POST /analyze-and-ask
+ * Supports two modes:
+ * - sample_index: loads from dataset (preferred for UI)
+ * - sensor_data: direct feature dictionary (for advanced use)
+ *
+ * @param {Object} request
+ * @param {string} request.query
+ * @param {number} [request.sampleIndex] — dataset sample index
+ * @param {Object} [request.sensorData] — direct 120 feature dictionary
+ * @param {number} [request.topShap=5]
+ */
+export function postAnalyzeAndAsk({
+  query,
+  sampleIndex = null,
+  sensorData = null,
+  topShap = 5,
+} = {}) {
+  const payload = { query, top_shap: topShap }
+  if (sampleIndex !== null) {
+    payload.sample_index = sampleIndex
+  } else if (sensorData !== null) {
+    payload.sensor_data = sensorData
+  } else {
+    throw new Error('Provide either sampleIndex or sensorData')
+  }
   return request('/analyze-and-ask', {
     method: 'POST',
-    body: JSON.stringify({ sensor_data: sensorData, query, top_shap: topShap }),
+    body: JSON.stringify(payload),
   })
 }
 

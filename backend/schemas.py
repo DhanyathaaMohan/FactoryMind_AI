@@ -5,7 +5,7 @@ Pydantic request and response models for all FastAPI endpoints.
 """
 
 from typing import Any, Dict, List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 # --------------------------------------------------
@@ -87,16 +87,56 @@ class AskResponse(BaseModel):
 
 
 # --------------------------------------------------
+# /samples (metadata endpoints)
+# --------------------------------------------------
+
+class SampleMetadata(BaseModel):
+    sample_index: int
+    tool_index: int
+    cycle: int
+
+
+class SamplesResponse(BaseModel):
+    samples: List[SampleMetadata]
+
+
+# --------------------------------------------------
 # /analyze-and-ask
 # --------------------------------------------------
 
 class AnalyzeRequest(BaseModel):
-    sensor_data: Dict[str, float] = Field(
-        ...,
-        description="All 120 sensor feature values",
+    """
+    Request model for full pipeline analysis.
+
+    Either sample_index OR sensor_data must be provided.
+    If sensor_data is provided, it must contain all 120 sensor feature names.
+    """
+    sample_index: Optional[int] = Field(
+        None,
+        ge=0,
+        description="Optional dataset sample index to load sensor data from",
+    )
+    sensor_data: Optional[Dict[str, float]] = Field(
+        None,
+        description="Optional direct sensor data mapping (120 features)",
     )
     query: str = Field(..., min_length=1, description="Maintenance question")
     top_shap: int = Field(5, ge=1, le=10, description="Number of SHAP features to return")
+
+    @model_validator(mode="after")
+    def validate_request_source(self):
+        """Validate that exactly one of sample_index or sensor_data is provided."""
+        sample_provided = self.sample_index is not None
+        data_provided = self.sensor_data is not None
+
+        if sample_provided == data_provided:
+            # Both None or both not None
+            if sample_provided:
+                raise ValueError("Provide either sample_index OR sensor_data, not both")
+            else:
+                raise ValueError("Provide either sample_index OR sensor_data")
+
+        return self
 
 
 class AnalyzeResponse(BaseModel):

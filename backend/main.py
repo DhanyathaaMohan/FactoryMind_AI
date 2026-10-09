@@ -41,6 +41,8 @@ from backend.schemas import (
     HealthResponse,
     RetrievedSource,
     ShapFeature,
+    SampleMetadata,
+    SamplesResponse,
 )
 from backend.services import prediction_service, retrieval_service, rag_service
 
@@ -96,6 +98,39 @@ def health():
         retrieval_loaded=retrieval_service.is_loaded(),
         generation_loaded=rag_service.is_generation_loaded(),
     )
+
+
+# --------------------------------------------------
+# SAMPLES
+# --------------------------------------------------
+
+@app.get("/samples", response_model=SamplesResponse, tags=["Dataset"])
+def list_samples():
+    """
+    Return lightweight metadata for all dataset samples.
+    Use /samples/{index} to fetch features for a specific sample.
+    """
+    try:
+        return prediction_service.get_samples_metadata()
+    except FileNotFoundError:
+        raise HTTPException(status_code=503, detail="Dataset not available")
+
+
+# --------------------------------------------------
+# SAMPLES BY INDEX
+# --------------------------------------------------
+
+@app.get("/samples/{sample_index}", tags=["Dataset"])
+def get_sample(sample_index: int):
+    """
+    Return metadata for a specific sample by its dataset index.
+    """
+    try:
+        return prediction_service.get_sample_metadata(sample_index)
+    except IndexError:
+        raise HTTPException(status_code=404, detail=f"Sample index {sample_index} not found")
+    except FileNotFoundError:
+        raise HTTPException(status_code=503, detail="Dataset not available")
 
 
 # --------------------------------------------------
@@ -198,14 +233,38 @@ def analyze_and_ask(request: AnalyzeRequest):
       2. Compute SHAP feature contributions
       3. Retrieve relevant Haas maintenance chunks
       4. Generate a grounded maintenance recommendation
+
+    Accepts either:
+    - sample_index: loads sensor data from the dataset
+    - sensor_data: direct feature dictionary (must contain 120 features)
     """
     try:
+        # Determine which data source to use
+        if request.sample_index is not None and request.sensor_data is None:
+            # Load from dataset
+            sensor_data = prediction_service.get_sample_sensor_data(request.sample_index)
+        elif request.sample_index is None and request.sensor_data is not None:
+            # Use provided sensor data
+            sensor_data = request.sensor_data
+        else:
+            raise HTTPException(
+                status_code=422,
+                detail="Provide either sample_index OR sensor_data, not both"
+            )
+
+        # Validate sensor_data
+        if sensor_data is None or len(sensor_data) == 0:
+            raise HTTPException(
+                status_code=422,
+                detail="Sensor data is empty. Ensure sample_index is valid or sensor_data contains features."
+            )
+
         # Prediction
-        pred = prediction_service.run_prediction(request.sensor_data)
+        pred = prediction_service.run_prediction(sensor_data)
 
         # SHAP explanation
         shap_feats = prediction_service.run_explanation(
-            request.sensor_data, top_n=request.top_shap
+            sensor_data, top_n=request.top_shap
         )
 
         # Enrich query with machine context

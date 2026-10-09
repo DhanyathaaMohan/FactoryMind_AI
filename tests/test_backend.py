@@ -209,3 +209,80 @@ class TestAsk:
     def test_ask_rul_out_of_range_rejected(self, client):
         r = client.post("/ask", json={"query": "spindle", "predicted_rul": 1.5})
         assert r.status_code == 422
+
+
+# --------------------------------------------------
+# /samples (new endpoint tests)                       #
+# --------------------------------------------------
+
+class TestSamples:
+
+    def test_samples_returns_200(self, client):
+        r = client.get("/samples")
+        assert r.status_code == 200, r.text
+
+    def test_samples_has_samples_list(self, client):
+        r = client.get("/samples")
+        assert "samples" in r.json()
+        assert isinstance(r.json()["samples"], list)
+        assert len(r.json()["samples"]) > 0
+
+    def test_sample_has_required_fields(self, client):
+        r = client.get("/samples")
+        samples = r.json()["samples"]
+        for sample in samples:
+            assert "sample_index" in sample
+            assert "tool_index" in sample
+            assert "cycle" in sample
+
+    def test_sample_index_is_integer(self, client):
+        r = client.get("/samples")
+        samples = r.json()["samples"]
+        for sample in samples:
+            assert isinstance(sample["sample_index"], int)
+
+    def test_tool_index_is_integer(self, client):
+        r = client.get("/samples")
+        samples = r.json()["samples"]
+        for sample in samples:
+            assert isinstance(sample["tool_index"], int)
+
+    def test_cycle_is_integer(self, client):
+        r = client.get("/samples")
+        samples = r.json()["samples"]
+        for sample in samples:
+            assert isinstance(sample["cycle"], int)
+
+    def test_analyze_and_ask_with_sample_index(self, client):
+        """Full pipeline with sample_index should work."""
+        r = client.post("/analyze-and-ask", json={
+            "query": "spindle vibration",
+            "sample_index": 0,
+        })
+        assert r.status_code == 200, r.text
+        assert "predicted_rul" in r.json()
+        assert "tool_condition" in r.json()
+        assert "top_shap_features" in r.json()
+        assert "maintenance_answer" in r.json()
+        assert len(r.json()["maintenance_answer"]) > 0
+
+    def test_analyze_and_ask_rejects_missing_sample_and_sensor(self, client):
+        """Request without sample_index or sensor_data should be rejected."""
+        r = client.post("/analyze-and-ask", json={
+            "query": "spindle vibration",
+        })
+        assert r.status_code == 422
+
+    def test_analyze_and_ask_rejects_both_sample_and_sensor(self, client):
+        """Request with both sample_index and sensor_data should be rejected."""
+        r = client.post("/analyze-and-ask", json={
+            "query": "spindle vibration",
+            "sample_index": 0,
+            "sensor_data": {"Accelerometer - Spindle -X - std": 0.012},
+        })
+        assert r.status_code == 422
+
+    def test_sample_not_found_returns_404(self, client):
+        """Non-existent sample index should return 404."""
+        r = client.get("/samples/999999")
+        assert r.status_code == 404
